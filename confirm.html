@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         *{
+            margin: 0px;
+            padding: 0px;
+        }
+     body{
+        background-color: bisque;
+     }
+     .form{
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 400px;
+     }
+     .form h1{
+        font-size: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 40px 0;}
+        .form p{
+        font-size: 20px;
+        margin: 15px 0;}
+        #fm{
+            position: absolute;
+            top: 50%;
+            left: 0%;
+        }
+        .button{
+        font-size: 14px;
+        font-weight: bold;
+        margin: 20px 0;
+        padding: 7px 5px;
+        width: 20%;
+        border: 0;
+        border-radius: 5px;
+        background-color: burlywood;
+     }
+     .button:hover {
+      color:brown ;
+     }
+     .inp{
+        padding: 5px 5px;
+     }
+     @media(max-width:600px){
+        .form{
+            min-width: 200px;
+        }
+     }
+    </style>
+</head>
+<body>
+    <div class="form" >
+        <form id="re">
+            <h1> application page</h1>
+          <p>Monthly EMI :</p> <span style="font-weight: bolder; font-size: larger;" id="na"></span>
+          <p id="msg"></p>
+
+          <p style="font-weight: bolder" id="ok">Enter OTP :</p>
+          <input class="inp" style=" background-color: bisque ;" type="text" id="otp" onmouseout="removeVal()"> <span><input class="button" id="btn" type="button" type="button" value="Verify" onclick="fun()"></span>
+           <h6 id="naam"></h6>
+
+        </form>
+        <h1 id="fm"></h1>
+    </div>
+    <script>
+        
+        document.getElementById("na").innerHTML=localStorage.getItem("emia");
+        // for random no.
+        let x = Math.floor(Math.random()*9999)
+        console.log(x)
+    let name=localStorage.getItem("NAME");// access value from local storage
+    let mai=localStorage.getItem("email");
+    let statMent=(`Dear ${name} Thankyou yor your inquiry,A four digit verification number has been sent to your email ${mai} please enter in the following box and submit for confirmation`)
+    document.getElementById('msg').innerHTML=statMent;
+    let attempt=3;
+
+    // function for chaking otp
+
+    function fun(){
+        
+        let val = document.getElementById('otp').value
+        if(x==val)
+        {   let m=document.getElementById("re");
+        let btn = document.getElementById("btn");
+        let msg=document.getElementById("otp");
+        re.remove();
+        msg.remove();
+        btn.remove();
+        document.getElementById('fm').innerHTML="validation successful";
+        
+        }
+        else{
+            if (attempt<=3)  {
+                attempt=attempt-1;
+                document.getElementById("naam").innerHTML="!oops wrong otp REENTER";
+                
+            }
+            if(attempt==0)
+            { let ms =document.getElementById("naam");
+                let btn = document.getElementById("btn");
+            let msg=document.getElementById("otp");
+            let m=document.getElementById("re");
+            m.remove();
+            msg.remove();
+            btn.remove();
+            ms.remove();
+            document.getElementById('fm').innerHTML="validation failed!";
+            
+        
+            
+            }
+            
+        }
+    }
+    function removeVal(){
+        document.getElementById("naam").innerHTML="";
+
+    }
+    </script>
+</body>
+</html>

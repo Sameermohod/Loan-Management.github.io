@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+     body{
+        background-color: bisque;
+     }
+     .form{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 400px;
+     }
+     .form h1{
+        font-size: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 40px 0;
+     }
+     .form p{
+        font-size: 20px;
+        margin: 15px 0;
+     }
+     .form input{
+        font-size: 16px;
+        padding: 15px 10px;
+        width: 100%;
+        border: 0;
+        border-radius: 6px;
+        outline: none;
+     }
+     .button{
+        font-size: 20px;
+        font-weight: bold;
+        margin: 20px 0;
+        padding: 10px 15px;
+        width: 50%;
+        border: 0;
+        border-radius: 5px;
+        background-color: burlywood;
+     }
+     .button:hover {
+      color:brown ;
+     }
+     .pan{
+        text-transform: uppercase;
+     }
+     @media(max-width:600px){
+        .form{
+            min-width: 100px;
+        }
+     }
+    </style>
+</head>
+<body>
+    <div class="form" >
+        <h1> application page</h1>
+        <form action="confirm.html">
+          <p>Full Name :</p>
+          <input type="text"  id="name" onmouseout="fullName()" placeholder="Full Name">
+          <span id="na"></span>
+          <p>Email :</p>
+          <input type="text"  id="mail" onmouseout="eMail()" placeholder="Email">
+          <span id="ma"></span>
+          <p>PAN :</p>
+          <input class="pan" type="text" id="pan" onmouseout="panNo()" placeholder="FNEPM">
+          <span id="pa"></span>
+          <p>Amount :</p>
+          <input type="number"  id="amount" placeholder="Amount" oninput="amo()">
+          <span style="font-weight: bolder;" id="am"></span>
+          <!-- <input type="button" value="submit"> -->
+          <button class="button" type="submit" onclick="return passvalues()">submit</button>
+        </form>
+    </div>
+</body>
+</html>
+    <script>
+        
+        function passvalues(){
+            //store input values in variable
+            let n=document.getElementById('name').value.toString();
+            let e=document.getElementById('mail').value.toString();
+            let p=document.getElementById('pan').value;
+            let a=document.getElementById('amount').value;
+            let cw = /^[A-Za-z ]+$/; // for text only in input tag
+            let val=n.split(" "); // for accessing first name from full name
+            let fn=val[0];
+          
+    
+           localStorage.setItem("NAME",fn);
+           localStorage.setItem("email",e);
+           
+            
+
+            if(n==""){
+                document.getElementById('na').innerHTML="Name can't be empty";
+                return false;
+            }
+            
+            if(n.length <= 4 || n.length > 20) //length of words 
+            {
+                document.getElementById('na').innerHTML="Fill the proper username";
+                return false;
+            }
+            if(!n.match(cw)){
+                document.getElementById('na').innerHTML="Name can't be number";
+                return false;
+            }
+             if(e=="")// for input tag is no empty
+             {
+                document.getElementById('ma').innerHTML="Email is required";
+                return false;
+            }
+             if(e.indexOf('@') <= 0 )  // for @ is not first letter
+            {
+                document.getElementById('ma').innerHTML="Invalid Email";
+                return false;
+            }
+             if(e.charAt(e.length-4)!='.' && e.charAt(e.length-3)!='.') // for position of dot (.) in gmail
+           {
+                document.getElementById('ma').innerHTML="Invalid Email";
+                return false;
+            }
+             if(p==""){
+                document.getElementById('pa').innerHTML="PAN no. is required";
+                return false;
+            }
+             if(p.length<=9){
+                document.getElementById('pa').innerHTML="Invalid PAN no.";
+                return false;
+            }
+            if(p.length>=12){
+                document.getElementById('pa').innerHTML="Invalid PAN no.";
+                return false;
+            }
+             if(a==""){
+              document.getElementById("am").innerHTML="please write the amount" 
+              return false;
+            }
+          else{
+                return true;
+            }
+
+        }
+        
+            
+        function amo(){
+            let a=document.getElementById('amount').value;
+            let ir=8.5;
+            let ye=15;
+            ir=ir / 12 / 100;
+            ye=ye*12;
+                let emi=(a*ir*Math.pow((1+ir),ye) ) / (Math.pow((1+ir),ye)-1) // formula for Monthly EMI
+                emi=emi.toFixed(2);
+            let em=emi.toString();
+                document.getElementById('am').innerHTML= "your EMI will be  " + em + "rupees per month";
+                localStorage.setItem("emia",em);
+                return false;
+        }
+        // function for removing the validation
+        function panNo(){
+             let p=document.getElementById('pan').value;
+                document.getElementById("pa").innerHTML="";
+        }
+        function eMail(){
+            let e=document.getElementById('mail').value;
+            document.getElementById("ma").innerHTML=""
+        }
+        function fullName(){
+            let n=document.getElementById('name').value;
+            document.getElementById("na").innerHTML=""
+
+        }
+        
+    
+    </script>
